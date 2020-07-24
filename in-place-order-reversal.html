@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Loading plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <title>In-place order reversal algorithm</title>
+</head>
+<body>
+    <h1>In-place order reversal algorithm</h1>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+
+        // Defining the array
+        const myArray = [];
+        // Filling the array with n elements
+        for (var i = 1; i <= 5; i++) {
+            myArray.push(i);
+        }
+        // Displaying array in it's initial state
+        console.log(`Initial array: ${myArray}`);
+        // in-order reversal algorithm
+        const reverseArrayInPlace = (arr) => {
+            // Counter 'i' starts at zero and is incremented until it is less than or equal to half the length of the array minus 1.
+            // This subraction is to prevent double swapping in the middle when there are even number of elements
+            for (var i = 0; i <= ((arr.length - 1) / 2); i++) {
+                // Assigning value at the current index to the variable 'el'
+                let el = arr[i];
+                // Assigning the value at (the last index minus the current index) to the element at the current index
+                arr[i] = arr[arr.length - 1 - i];
+                // Assinging value of 'el' to (the element at the last index minus the current index)
+                arr[arr.length - 1 - i] = el;
+            }
+            //returning reversed array
+            return arr;
+        }
+        // Algorithm performance measurement function
+        const measurePerformance = () => {
+            let start = performance.now();
+            reverseArrayInPlace(myArray); 
+            let end = performance.now(); 
+            let timeTaken = end - start; 
+            console.log(`Function took ${timeTaken} milliseconds to execute`); 
+        }
+        // Performance measrement function call
+        measurePerformance();
+        // Displaying reversed array
+        console.log(`Reversed array: ${myArray}`);
+
+
+        //  Plotting the graph
+        var trace = {
+            // Number of array inputs
+            x: [500, 1500, 2500],
+            // Execution time in milliseconds  
+            y: [0.08, 0.18, 0.22],
+            type: 'scatter'
+        };
+
+        var data = [trace];
+        
+        var layout = {
+            title: 'Plot of the true runtime of the \'reverseArrayInPlace\' algorithm as a function of the size of the input array, n.',
+            xaxis: {
+                title: 'Number of elements in the array',
+                showgrid: false,
+                zeroline: false
+            },
+            yaxis: {
+                title: 'Time in miliseconds',
+                showline: false
+            }
+        };
+
+        Plotly.newPlot('myDiv', data, layout);
+
+    </script>
+</body>
+</html>
